@@ -162,21 +162,10 @@ fi
 echo "Unpacking openssl"
 tar xfz "${OPENSSL_VERSION}.tar.gz"
 
-buildMac "x86_64"
-
-echo "Copying headers"
-cp /tmp/${OPENSSL_VERSION}-x86_64/include/openssl/* include/openssl/
-
-echo "Building Mac libraries"
-lipo \
-	"/tmp/${OPENSSL_VERSION}-x86_64/lib/libcrypto.a" \
-	-create -output lib/libcrypto_Mac.a
-
-lipo \
-	"/tmp/${OPENSSL_VERSION}-x86_64/lib/libssl.a" \
-	-create -output lib/libssl_Mac.a
+echo "${OPENSSL_VERSION}.tar.gz" > .gitignore
 
 buildIOS "armv7"
+buildIOS "armv7s"
 buildIOS "arm64"
 buildIOS "x86_64"
 buildIOS "i386"
@@ -184,40 +173,22 @@ buildIOS "i386"
 echo "Building iOS libraries"
 lipo \
 	"/tmp/${OPENSSL_VERSION}-iOS-armv7/lib/libcrypto.a" \
+	"/tmp/${OPENSSL_VERSION}-iOS-armv7s/lib/libcrypto.a" \
 	"/tmp/${OPENSSL_VERSION}-iOS-i386/lib/libcrypto.a" \
-	-create -output lib/libcrypto_iOS.a
+	"/tmp/${OPENSSL_VERSION}-iOS-arm64/lib/libcrypto.a" \
+	"/tmp/${OPENSSL_VERSION}-iOS-x86_64/lib/libcrypto.a" \
+	-create -output lib/libcrypto.a
 
 lipo \
 	"/tmp/${OPENSSL_VERSION}-iOS-armv7/lib/libssl.a" \
+	"/tmp/${OPENSSL_VERSION}-iOS-armv7s/lib/libssl.a" \
 	"/tmp/${OPENSSL_VERSION}-iOS-i386/lib/libssl.a" \
-	-create -output lib/libssl_iOS.a
+	"/tmp/${OPENSSL_VERSION}-iOS-arm64/lib/libssl.a" \
+	"/tmp/${OPENSSL_VERSION}-iOS-x86_64/lib/libssl.a" \
+	-create -output lib/libssl.a
 
-	echo "Adding 64-bit libraries"
-	lipo \
-		"lib/libcrypto_iOS.a" \
-		"/tmp/${OPENSSL_VERSION}-iOS-arm64/lib/libcrypto.a" \
-		"/tmp/${OPENSSL_VERSION}-iOS-x86_64/lib/libcrypto.a" \
-		-create -output lib/libcrypto_iOS.a
-
-	lipo \
-		"lib/libssl_iOS.a" \
-		"/tmp/${OPENSSL_VERSION}-iOS-arm64/lib/libssl.a" \
-		"/tmp/${OPENSSL_VERSION}-iOS-x86_64/lib/libssl.a" \
-		-create -output lib/libssl_iOS.a
-
-buildTVOS "arm64"
-buildTVOS "x86_64"
-
-echo "Building tvOS libraries"
-lipo \
-	"/tmp/${OPENSSL_VERSION}-tvOS-arm64/lib/libcrypto.a" \
-	"/tmp/${OPENSSL_VERSION}-tvOS-x86_64/lib/libcrypto.a" \
-	-create -output lib/libcrypto_tvOS.a
-
-lipo \
-	"/tmp/${OPENSSL_VERSION}-tvOS-arm64/lib/libssl.a" \
-	"/tmp/${OPENSSL_VERSION}-tvOS-x86_64/lib/libssl.a" \
-	-create -output lib/libssl_tvOS.a
+echo "Copying headers"
+cp /tmp/${OPENSSL_VERSION}-iOS-arm64/include/openssl/* include/openssl/
 
 echo "Cleaning up"
 rm -rf /tmp/${OPENSSL_VERSION}-*
