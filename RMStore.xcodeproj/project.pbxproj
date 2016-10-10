@@ -98,8 +98,8 @@
 		8760464C18130DD400C9B78C /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		876631F7180EEBF40049B368 /* RMStoreTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMStoreTransaction.h; sourceTree = "<group>"; };
 		876631F8180EEBF40049B368 /* RMStoreTransaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMStoreTransaction.m; sourceTree = "<group>"; };
-		8793E797180C2ABE005D7A66 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "RMStore/Optional/openssl-1.0.1e/lib/libcrypto.a"; sourceTree = "<group>"; };
-		8793E798180C2ABE005D7A66 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "RMStore/Optional/openssl-1.0.1e/lib/libssl.a"; sourceTree = "<group>"; };
+		8793E797180C2ABE005D7A66 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = RMStore/Optional/openssl/lib/libcrypto.a; sourceTree = "<group>"; };
+		8793E798180C2ABE005D7A66 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = RMStore/Optional/openssl/lib/libssl.a; sourceTree = "<group>"; };
 		8793E800180D512E005D7A66 /* RMAppReceipt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMAppReceipt.h; sourceTree = "<group>"; };
 		8793E801180D512E005D7A66 /* RMAppReceipt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMAppReceipt.m; sourceTree = "<group>"; };
 		8793E802180D512E005D7A66 /* RMStoreAppReceiptVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMStoreAppReceiptVerifier.h; sourceTree = "<group>"; };
@@ -629,11 +629,11 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"${TARGET_NAME}/Optional/openssl-1.0.1e/include/**",
+					"${TARGET_NAME}/Optional/openssl/include/**",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"RMStore/Optional/openssl-1.0.1e/lib",
+					RMStore/Optional/openssl/lib,
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -649,11 +649,11 @@
 				GCC_PREFIX_HEADER = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"${TARGET_NAME}/Optional/openssl-1.0.1e/include/**",
+					"${TARGET_NAME}/Optional/openssl/include/**",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"RMStore/Optional/openssl-1.0.1e/lib",
+					RMStore/Optional/openssl/lib,
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
