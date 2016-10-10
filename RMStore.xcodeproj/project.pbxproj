@@ -611,7 +611,6 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"${TARGET_NAME}/Optional/openssl-1.0.1e/include/**",
 				);
 				LIBRARY_SEARCH_PATHS = (
@@ -632,7 +631,6 @@
 				GCC_PREFIX_HEADER = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"${TARGET_NAME}/Optional/openssl-1.0.1e/include/**",
 				);
 				LIBRARY_SEARCH_PATHS = (
