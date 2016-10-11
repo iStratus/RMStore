@@ -21,6 +21,8 @@
 #import <Foundation/Foundation.h>
 #import "RMStore.h"
 
+@class RMAppReceipt;
+
 /**
  Reference implementation of an app receipt verifier. If security is a concern you might want to avoid using a verifier whose code is open source.
  */
@@ -45,5 +47,13 @@ __attribute__((availability(ios,introduced=7.0)))
  @discussion If validation fails in iOS, Apple recommends to refresh the receipt and try again.
  */
 - (BOOL)verifyAppReceipt;
+
+/**
+ Verifies the app receipt by checking the integrity of the receipt, comparing its bundle identifier and bundle version to the values returned by the corresponding properties and verifying the receipt hash.
+ @param receipt The receipt to verify.
+ @return YES if the receipt is verified, NO otherwise.
+ @discussion If validation fails in iOS, Apple recommends to refresh the receipt and try again.
+ */
+- (BOOL)verifyAppReceipt:(RMAppReceipt*)receipt;
 
 @end
