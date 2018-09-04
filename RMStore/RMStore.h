@@ -147,7 +147,6 @@ extern NSInteger const RMStoreErrorCodeUnableToCompleteVerification;
 
 /** The receipt verifier. You can provide your own or use one of the reference implementations provided by the library.
  @see RMStoreAppReceiptVerifier
- @see RMStoreTransactionReceiptVerifier
  */
 @property (nonatomic, weak) id<RMStoreReceiptVerifier> receiptVerifier;
 
