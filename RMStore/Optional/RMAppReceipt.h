@@ -156,6 +156,15 @@ __attribute__((availability(ios,introduced=7.0)))
  */
 @property (nonatomic, strong, readonly) NSDate *cancellationDate;
 
+/** For an auto-renewable subscription, whether or not it is in the introductory price period.
+ */
+@property (nonatomic, readonly, getter=isSubscriptionIntroductoryPricePeriod) BOOL subscriptionIntroductoryPricePeriod;
+
+/** For a subscription, whether or not it is in the free trial period
+ @warning This property is populated using an undocumented ASN.1 Field Type that seems to match JSON Field Type @c is_trial_period (Jun 5, 2020). See https://developer.apple.com/library/archive/releasenotes/General/ValidateAppStoreReceipt/Chapters/ReceiptFields.html#//apple_ref/doc/uid/TP40010573-CH106-SW1
+ */
+@property (nonatomic, readonly, getter=isSubscriptionTrialPeriod) BOOL subscriptionTrialPeriod;
+
 /** The primary key for identifying subscription purchases.
  */
 @property (nonatomic, readonly) NSInteger webOrderLineItemID;

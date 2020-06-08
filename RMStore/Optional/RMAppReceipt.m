@@ -43,6 +43,8 @@ NSInteger const RMAppReceiptASN1TypeOriginalPurchaseDate = 1706;
 NSInteger const RMAppReceiptASN1TypeSubscriptionExpirationDate = 1708;
 NSInteger const RMAppReceiptASN1TypeWebOrderLineItemID = 1711;
 NSInteger const RMAppReceiptASN1TypeCancellationDate = 1712;
+NSInteger const RMAppReceiptASN1TypeSubscriptionTrialPeriod = 1713; // This ASN.1 Field Type is undocumented at the moment (Jun 5, 2020)
+NSInteger const RMAppReceiptASN1TypeSubscriptionIntroductoryPricePeriod = 1719;
 
 #pragma mark - ANS1
 
@@ -367,6 +369,12 @@ static NSURL *_appleRootCertificateURL = nil;
                     self->_cancellationDate = [RMAppReceipt formatRFC3339String:string];
                     break;
                 }
+				case RMAppReceiptASN1TypeSubscriptionTrialPeriod:
+					self->_subscriptionTrialPeriod = RMASN1ReadInteger(&p, length);
+					break;
+				case RMAppReceiptASN1TypeSubscriptionIntroductoryPricePeriod:
+					self->_subscriptionIntroductoryPricePeriod = RMASN1ReadInteger(&p, length);
+					break;
             }
         }];
     }
