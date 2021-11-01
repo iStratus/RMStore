@@ -1,0 +1,3 @@
+[submodule "Components/iSSH2"]
+	path = Components/iSSH2
+	url = git@github.com:iStratus/iSSH2.git
