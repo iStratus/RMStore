@@ -416,7 +416,7 @@ typedef void (^RMStoreSuccessBlock)(void);
 {
     for (SKDownload *download in downloads)
     {
-        switch (download.downloadState)
+        switch (download.state)
         {
             case SKDownloadStateActive:
                 [self didUpdateDownload:download queue:queue];
@@ -505,7 +505,7 @@ typedef void (^RMStoreSuccessBlock)(void);
 {
     for (SKDownload *download in transaction.downloads)
     {
-        switch (download.downloadState)
+        switch (download.state)
         {
             case SKDownloadStateActive:
             case SKDownloadStatePaused:
