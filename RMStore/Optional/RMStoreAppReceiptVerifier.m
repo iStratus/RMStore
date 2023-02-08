@@ -72,15 +72,39 @@
 
 #pragma mark - Private
 
+- (void)showError:(NSString *)title message:(NSString *)message {
+	if (![NSThread isMainThread]) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self showError:title message:message];
+		});
+		return;
+	}
+	UIAlertController *const alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+	[alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+	[[[[[UIApplication sharedApplication] windows] firstObject] rootViewController] presentViewController:alert animated:YES completion:nil];
+}
+
 - (BOOL)verifyAppReceipt:(RMAppReceipt*)receipt
 {
-    if (!receipt) return NO;
+	if (!receipt) {
+		[self showError:@"Nil Receipt" message:nil];
+		return NO;
+	}
     
-    if (![receipt.bundleIdentifier isEqualToString:self.bundleIdentifier]) return NO;
+	if (![receipt.bundleIdentifier isEqualToString:self.bundleIdentifier]) {
+		[self showError:@"Bundle Identifier Mismatch" message:[NSString stringWithFormat:@"%@ != %@", receipt.bundleIdentifier, self.bundleIdentifier]];
+		return NO;
+	}
     
-    if (![receipt.appVersion isEqualToString:self.bundleVersion]) return NO;
+	if (![receipt.appVersion isEqualToString:self.bundleVersion]) {
+		[self showError:@"App Version Mismatch" message:[NSString stringWithFormat:@"%@ != %@", receipt.appVersion, self.bundleVersion]];
+		return NO;
+	}
     
-    if (![receipt verifyReceiptHash]) return NO;
+	if (![receipt verifyReceiptHash]) {
+		[self showError:@"Verify Receipt Failure" message:nil];
+		return NO;
+	}
     
     return YES;
 }
