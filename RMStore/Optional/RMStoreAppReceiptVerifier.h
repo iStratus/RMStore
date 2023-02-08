@@ -23,6 +23,15 @@
 
 @class RMAppReceipt;
 
+typedef enum : NSUInteger {
+	RMStoreAppReceiptVerificationErrorMultiple NS_AVAILABLE_IOS(14.5) = 1,
+	RMStoreAppReceiptVerificationErrorNilReceipt = -1,
+	RMStoreAppReceiptVerificationErrorBundleIdentifierMismatch = -2,
+	RMStoreAppReceiptVerificationErrorBundleVersionMismatch = -3,
+	RMStoreAppReceiptVerificationErrorInvalidHash = -4,
+} RMStoreAppReceiptVerifierErrorCode;
+static NSString * _Nonnull const RMStoreAppReceiptVerifierErrorDomain = @"com.istratus.rmstore.receiptVerifier";
+
 /**
  Reference implementation of an app receipt verifier. If security is a concern you might want to avoid using a verifier whose code is open source.
  */
@@ -33,27 +42,19 @@ __attribute__((availability(ios,introduced=7.0)))
  The value that will be used to validate the bundle identifier included in the app receipt. Given that it is possible to modify the app bundle in jailbroken devices, setting this value from a hardcoded string might provide better protection.
  @return The given value, or the app's bundle identifier by defult.
  */
-@property (nonatomic, strong) NSString *bundleIdentifier;
+@property (nonatomic, strong, null_resettable) NSString *bundleIdentifier;
 
 /**
  The value that will be used to validate the bundle version included in the app receipt. Given that it is possible to modify the app bundle in jailbroken devices, setting this value from a hardcoded string might provide better protection.
  @return The given value, or the app's bundle version by defult.
  */
-@property (nonatomic, strong) NSString *bundleVersion;
+@property (nonatomic, strong, null_resettable) NSString *bundleVersion;
 
 /**
  Verifies the app receipt by checking the integrity of the receipt, comparing its bundle identifier and bundle version to the values returned by the corresponding properties and verifying the receipt hash.
  @return YES if the receipt is verified, NO otherwise.
  @discussion If validation fails in iOS, Apple recommends to refresh the receipt and try again.
  */
-- (BOOL)verifyAppReceipt;
-
-/**
- Verifies the app receipt by checking the integrity of the receipt, comparing its bundle identifier and bundle version to the values returned by the corresponding properties and verifying the receipt hash.
- @param receipt The receipt to verify.
- @return YES if the receipt is verified, NO otherwise.
- @discussion If validation fails in iOS, Apple recommends to refresh the receipt and try again.
- */
-- (BOOL)verifyAppReceipt:(RMAppReceipt*)receipt;
+- (nullable RMAppReceipt *)verifiedAppReceipt:(NSError *_Nullable *_Nullable)error;
 
 @end

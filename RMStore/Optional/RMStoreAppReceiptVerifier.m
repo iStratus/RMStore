@@ -40,10 +40,13 @@
     }];
 }
 
-- (BOOL)verifyAppReceipt
+- (RMAppReceipt *)verifiedAppReceipt:(NSError **)error
 {
     RMAppReceipt *receipt = [RMAppReceipt bundleReceipt];
-    return [self verifyAppReceipt:receipt];
+	if ([self verifyAppReceipt:receipt error:error]) {
+		return receipt;
+	}
+	return nil;
 }
 
 #pragma mark - Properties
@@ -72,17 +75,79 @@
 
 #pragma mark - Private
 
-- (BOOL)verifyAppReceipt:(RMAppReceipt*)receipt
+- (BOOL)verifyAppReceipt:(RMAppReceipt*)receipt error:(NSError **)error
 {
-    if (!receipt) return NO;
-    
-    if (![receipt.bundleIdentifier isEqualToString:self.bundleIdentifier]) return NO;
-    
-    if (![receipt.appVersion isEqualToString:self.bundleVersion]) return NO;
-    
-    if (![receipt verifyReceiptHash]) return NO;
-    
-    return YES;
+	NSMutableArray<NSError *> *const errors = (error != NULL ? [NSMutableArray arrayWithCapacity:4] : nil);
+	if (receipt == nil) {
+		if (errors == nil) {
+			return NO;
+		}
+		[errors addObject:[NSError errorWithDomain: RMStoreAppReceiptVerifierErrorDomain
+											  code: RMStoreAppReceiptVerificationErrorNilReceipt
+										  userInfo: @{
+			NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Nil Receipt", @"Nil Receipt"),
+		}]];
+	}
+	
+	if (![receipt.bundleIdentifier isEqualToString:self.bundleIdentifier]) {
+		if (errors == nil) {
+			return NO;
+		}
+		[errors addObject:[NSError errorWithDomain: RMStoreAppReceiptVerifierErrorDomain
+											  code: RMStoreAppReceiptVerificationErrorBundleIdentifierMismatch
+										  userInfo: @{
+			NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Bundle Identifier Mismatch", @"Bundle Identifier Mismatch"),
+			NSLocalizedDescriptionKey: [NSString stringWithFormat:@"%@ != %@", receipt.bundleIdentifier, self.bundleIdentifier],
+		}]];
+	}
+	
+	if (![receipt.appVersion isEqualToString:self.bundleVersion]) {
+		if (errors == nil) {
+			return NO;
+		}
+		[errors addObject:[NSError errorWithDomain: RMStoreAppReceiptVerifierErrorDomain
+											  code: RMStoreAppReceiptVerificationErrorBundleVersionMismatch
+										  userInfo: @{
+			NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"App Version Mismatch", @"App Version Mismatch"),
+			NSLocalizedDescriptionKey: [NSString stringWithFormat:@"%@ != %@", receipt.appVersion, self.bundleVersion],
+		}]];
+	}
+	
+	if (![receipt verifyReceiptHash]) {
+		if (errors == nil) {
+			return NO;
+		}
+		[errors addObject:[NSError errorWithDomain: RMStoreAppReceiptVerifierErrorDomain
+											  code: RMStoreAppReceiptVerificationErrorInvalidHash
+										  userInfo: @{
+			NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Verify Receipt Failure", @"Verify Receipt Failure"),
+		}]];
+	}
+	
+	if (error == NULL) {
+		return YES;
+	}
+	if (@available(iOS 14.5, *)) {
+		switch (errors.count) {
+			case 0:
+				*error = nil;
+				break;
+			case 1:
+				*error = errors[0];
+				break;
+			default:
+				*error = [NSError errorWithDomain: RMStoreAppReceiptVerifierErrorDomain
+											 code: RMStoreAppReceiptVerificationErrorMultiple
+										 userInfo: @{
+					NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Multiple Errors Occurred", @"Multiple Errors Occurred"),
+					NSMultipleUnderlyingErrorsKey: errors,
+				}];
+				break;
+		}
+	} else {
+		*error = errors.firstObject;
+	}
+	return (*error == nil);
 }
 
 - (BOOL)verifyTransaction:(SKPaymentTransaction*)transaction
@@ -90,7 +155,7 @@
 				  success:(void (^)(void))successBlock
                            failure:(void (^)(NSError *error))failureBlock
 {
-    const BOOL receiptVerified = [self verifyAppReceipt:receipt];
+    const BOOL receiptVerified = [self verifyAppReceipt:receipt error:NULL];
     if (!receiptVerified)
     {
         [self failWithBlock:failureBlock message:NSLocalizedStringFromTable(@"The app receipt failed verification", @"RMStore", nil)];

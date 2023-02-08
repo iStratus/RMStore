@@ -42,7 +42,7 @@
 
 - (void)testVerifyAppReceipt_NO
 { SKIP_IF_VERSION(NSFoundationVersionNumber_iOS_6_1)
-    BOOL result = [_verifier verifyAppReceipt];
+	BOOL result = ([_verifier verifiedAppReceipt:NULL] != nil);
     XCTAssertFalse(result, @"");
 }
 
