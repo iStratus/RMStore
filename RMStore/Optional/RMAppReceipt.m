@@ -223,7 +223,7 @@ static NSURL *_appleRootCertificateURL = nil;
     
     if (!p7) return nil;
     
-    NSData *data;
+    NSData *data = nil;
     NSURL *certificateURL = _appleRootCertificateURL ? : [[NSBundle mainBundle] URLForResource:@"AppleIncRootCertificate" withExtension:@"cer"];
     NSData *certificateData = [NSData dataWithContentsOfURL:certificateURL];
     if (!certificateData || [self verifyPCKS7:p7 withCertificateData:certificateData])
