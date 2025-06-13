@@ -412,7 +412,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 2600;
 				ORGANIZATIONNAME = "Robot Media";
 			};
 			buildConfigurationList = A0AF3D0317A802F300D2E836 /* Build configuration list for PBXProject "RMStore" */;
