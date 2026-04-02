@@ -129,8 +129,7 @@
 {
     
     static NSString *productIdentifier = @"test";
-    id product = [OCMockObject mockForClass:[SKProduct class]];
-    [[[product stub] andReturn:productIdentifier] productIdentifier];
+	id product = [self mockProductWithIdentifier:productIdentifier];
     (_store.products)[productIdentifier] = product;
     [_store addPayment:productIdentifier];
 }
@@ -236,7 +235,7 @@
 
 - (void)testLocalizedPriceOfProduct
 {
-    id product = [OCMockObject mockForClass:[SKProduct class]];
+	id product = [self mockProductWithIdentifier:nil];
     NSDecimalNumber *price = [NSDecimalNumber decimalNumberWithString:@"1"];
     [[[product stub] andReturn:price] price];
     NSLocale *locale = [NSLocale currentLocale];
@@ -689,8 +688,7 @@
     id originalTransaction = [self mockPaymentTransactionWithState:SKPaymentTransactionStatePurchased];
     [[queue stub] finishTransaction:[OCMArg any]];
 
-    id product = [OCMockObject mockForClass:[SKProduct class]];
-    [[[product stub] andReturn:@"test"] productIdentifier];
+	id product = [self mockProductWithIdentifier:@"test"];
     (_store.products)[@"test"] = product;
     [_store addPayment:@"test" success:^(SKPaymentTransaction *transaction) {
        XCTAssertEqualObjects(transaction, originalTransaction, @"");
@@ -924,8 +922,7 @@
     [[[originalTransaction stub] andReturn:originalError] error];
     [[queue stub] finishTransaction:[OCMArg any]];
 
-    id product = [OCMockObject mockForClass:[SKProduct class]];
-    [[[product stub] andReturn:@"test"] productIdentifier];
+	id product = [self mockProductWithIdentifier:@"test"];
     (_store.products)[@"test"] = product;
     [_store addPayment:@"test" success:^(SKPaymentTransaction *transaction) {
         XCTFail(@"");
@@ -1249,6 +1246,7 @@
     id download = [OCMockObject mockForClass:[SKDownload class]];
     [[[download stub] andReturn:@"content"] contentIdentifier];
     [[[download stub] andReturnValue:@(state)] downloadState];
+    [[[download stub] andReturnValue:@(state)] state];
     return download;
 }
 
@@ -1263,6 +1261,16 @@
     id originalTransaction = [self mockPaymentTransactionWithState:SKPaymentTransactionStatePurchased];
     [[[transaction stub] andReturn:originalTransaction] originalTransaction];
     return transaction;
+}
+
+- (id)mockProductWithIdentifier:(nullable NSString *)productIdentifier {
+	id product = [OCMockObject mockForClass:[SKProduct class]];
+	if (productIdentifier != nil) {
+		[[[product stub] andReturn:productIdentifier] productIdentifier];
+	}
+	[[[product stub] andReturn:nil] subscriptionPeriod];
+	[[[product stub] andReturn:nil] performSelector:@selector(_productKind)];
+	return product;
 }
 
 - (id)mockPaymentTransactionWithState:(SKPaymentTransactionState)state downloads:(NSArray*)downloads

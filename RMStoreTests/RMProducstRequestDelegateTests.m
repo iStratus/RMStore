@@ -84,6 +84,8 @@ typedef void (^RMSKProductsRequestSuccessBlock)(NSArray *products, NSArray *inva
     
     id product = [OCMockObject mockForClass:[SKProduct class]];
     [[[product stub] andReturn:@"test"] productIdentifier];
+	[[[product stub] andReturn:nil] subscriptionPeriod];
+	[[[product stub] andReturn:nil] performSelector:@selector(_productKind)];
 
     [[[response stub] andReturn:@[product]] products];
     [[[response stub] andReturn:@[]] invalidProductIdentifiers];
