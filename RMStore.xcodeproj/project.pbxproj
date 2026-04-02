@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		373FD1042F7EBA030019033B /* OCMock.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373FD1032F7EBA030019033B /* OCMock.xcframework */; };
+		373FD1052F7EBA030019033B /* OCMock.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 373FD1032F7EBA030019033B /* OCMock.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		375B27602730299C00AB6D0F /* libcrypto.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 375B275E2730299C00AB6D0F /* libcrypto.xcframework */; };
 		375B27612730299C00AB6D0F /* libssl.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 375B275F2730299C00AB6D0F /* libssl.xcframework */; };
 		375B2762273029A000AB6D0F /* libcrypto.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 375B275E2730299C00AB6D0F /* libcrypto.xcframework */; };
 		375B2763273029A000AB6D0F /* libssl.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 375B275F2730299C00AB6D0F /* libssl.xcframework */; };
 		8700D1C117DCA548005C8F5D /* NSNotification+RMStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8700D1C017DCA548005C8F5D /* NSNotification+RMStoreTests.m */; };
-		8700D1D717DCB011005C8F5D /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8700D1D617DCB011005C8F5D /* libOCMock.a */; };
 		876046491812FB7500C9B78C /* RMStoreKeychainPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 876046481812FB7500C9B78C /* RMStoreKeychainPersistence.m */; };
 		8760464B18130CBB00C9B78C /* RMStoreKeychainPersistenceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8760464A18130CBB00C9B78C /* RMStoreKeychainPersistenceTests.m */; };
 		8760464D18130DD400C9B78C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8760464C18130DD400C9B78C /* Security.framework */; };
@@ -68,6 +69,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		373FD1062F7EBA030019033B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				373FD1052F7EBA030019033B /* OCMock.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A0AF3D0617A802F300D2E836 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -81,6 +93,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		373FD1032F7EBA030019033B /* OCMock.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = OCMock.xcframework; path = RMStoreTests/usr/lib/OCMock.xcframework; sourceTree = "<group>"; };
 		375B275E2730299C00AB6D0F /* libcrypto.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libcrypto.xcframework; path = Components/libcrypto.xcframework; sourceTree = "<group>"; };
 		375B275F2730299C00AB6D0F /* libssl.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libssl.xcframework; path = Components/libssl.xcframework; sourceTree = "<group>"; };
 		8700D1C017DCA548005C8F5D /* NSNotification+RMStoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNotification+RMStoreTests.m"; sourceTree = "<group>"; };
@@ -161,8 +174,8 @@
 				A0AF3D3517A805AD00D2E836 /* StoreKit.framework in Frameworks */,
 				A0AF3D1D17A802F300D2E836 /* UIKit.framework in Frameworks */,
 				A0AF3D1E17A802F300D2E836 /* Foundation.framework in Frameworks */,
+				373FD1042F7EBA030019033B /* OCMock.xcframework in Frameworks */,
 				A0AF3D2117A802F300D2E836 /* libRMStore.a in Frameworks */,
-				8700D1D717DCB011005C8F5D /* libOCMock.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,6 +276,7 @@
 		A0AF3D0A17A802F300D2E836 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				373FD1032F7EBA030019033B /* OCMock.xcframework */,
 				375B275E2730299C00AB6D0F /* libcrypto.xcframework */,
 				375B275F2730299C00AB6D0F /* libssl.xcframework */,
 				C90EF0F019A20C8200A9E738 /* XCTest.framework */,
@@ -377,6 +391,7 @@
 				A0AF3D1417A802F300D2E836 /* Sources */,
 				A0AF3D1517A802F300D2E836 /* Frameworks */,
 				A0AF3D1617A802F300D2E836 /* Resources */,
+				373FD1062F7EBA030019033B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
