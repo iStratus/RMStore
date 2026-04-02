@@ -38,17 +38,21 @@
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [[RMStore defaultStore] requestProducts:[NSSet setWithArray:_products] success:^(NSArray *products, NSArray *invalidProductIdentifiers) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        _productsRequestFinished = YES;
-        [self.tableView reloadData];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+			_productsRequestFinished = YES;
+			[self.tableView reloadData];
+		});
     } failure:^(NSError *error) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Products Request Failed", @"")
-                                                           message:error.localizedDescription
-                                                          delegate:nil
-                                                 cancelButtonTitle:NSLocalizedString(@"OK", @"")
-                                                 otherButtonTitles:nil];
-        [alertView show];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Products Request Failed", @"")
+																message:error.localizedDescription
+															   delegate:nil
+													  cancelButtonTitle:NSLocalizedString(@"OK", @"")
+													  otherButtonTitles:nil];
+			[alertView show];
+		});
     }];
 }
 
