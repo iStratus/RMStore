@@ -18,25 +18,6 @@
 extern void RMKeychainSetValue(NSData *value, NSString *key);
 extern NSString* const RMStoreTransactionsKeychainKey;
 
-/**
- [NSBundle bundleIdentifier] returns nil during unit tests. Since RMStoreKeychainPersistence uses it as the keychain service value we have to swizzle it to return a value.
- */
-@implementation NSBundle(bundleIdentifier)
-
-- (NSString*)swizzled_bundleIdentifier
-{
-    return @"test";
-}
-
-+(void)load
-{
-    Method original = class_getInstanceMethod(self, @selector(bundleIdentifier));
-    Method swizzle = class_getInstanceMethod(self, @selector(swizzled_bundleIdentifier));
-    method_exchangeImplementations(original, swizzle);
-}
-
-@end
-
 @interface RMStoreKeychainPersistenceTests : XCTestCase
 
 @end
