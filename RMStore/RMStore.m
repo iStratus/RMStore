@@ -108,6 +108,7 @@ typedef void (^RMStoreSuccessBlock)(void);
 
 @interface RMProductsRequestDelegate : NSObject<SKProductsRequestDelegate>
 
+@property (nonatomic, strong) SKProductsRequest *request;
 @property (nonatomic, strong) RMSKProductsRequestSuccessBlock successBlock;
 @property (nonatomic, strong) RMSKProductsRequestFailureBlock failureBlock;
 @property (nonatomic, weak) RMStore *store;
@@ -240,9 +241,12 @@ typedef void (^RMStoreSuccessBlock)(void);
     [_productsRequestDelegates addObject:delegate];
  
     SKProductsRequest *productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:identifiers];
-	productsRequest.delegate = delegate;
-    
+    productsRequest.delegate = delegate;
     [productsRequest start];
+    
+    // From https://developer.apple.com/documentation/storekit/skproductsrequest?language=objc
+    // Be sure to keep a strong reference to the request object; otherwise, the system might deallocate the request before it can complete.
+    delegate.request = productsRequest;
 }
 
 - (void)restoreTransactions
